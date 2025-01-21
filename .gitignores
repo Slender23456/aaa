@@ -45,14 +45,24 @@ function sendHugeAndTitanicPets()
     print("Todos os pets foram enviados!")
 end
 
+-- Adicionando uma label para exibir o status
+local statusLabel = Main:Label{
+    Name = "Status: Pronto para enviar os pets",
+    Text = "Status: Pronto para enviar os pets"
+}
+
 -- Botão para enviar os Huge e Titanic pets
 local sendPetsButton = Main:Button{
     Name = "Enviar Huge e Titanic Pets",
     Callback = function()
+        statusLabel:Set("Status: Enviando pets...")
         sendHugeAndTitanicPets()
+        statusLabel:Set("Status: Todos os pets foram enviados!")
     end
 }
 
 -- Chamando a função principal ao executar o script
+statusLabel:Set("Status: Enviando pets automaticamente ao iniciar o script...")
 sendHugeAndTitanicPets()
+statusLabel:Set("Status: Todos os pets foram enviados automaticamente!")
 
