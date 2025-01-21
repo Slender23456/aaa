@@ -9,60 +9,81 @@ local Main = UI:Tab{
    Name = "Main"
 }
 
-local Divider = Main:Divider{
-   Name = "Main shit"
+local AutoFarmDivider = Main:Divider{
+   Name = "Auto Farm"
 }
 
 local QuitDivider = Main:Divider{
    Name = "Quit"
 }
 
-local playerName = "slenderman_510"  -- Nome da conta destinatária
-local hugePets = {"Huge Red Wolf", "Huge Player Fox"}  -- Lista dos huge pets a serem enviados
-local titanicPets = {"Titanic Pet 1", "Titanic Pet 2"}  -- Lista dos pets Titanic a serem enviados
+local isAutoCollecting = false
+local isAutoOpening = false
 
--- Função para enviar um pet pela mailbox
-function sendPetToMailbox(player, pet)
-    print("Enviando " .. pet .. " para " .. player)
-    -- Código para enviar o pet pela mailbox vai aqui
-    -- Simulação do envio:
-    wait(1)
-    print(pet .. " foi enviado para " .. player .. " com sucesso!")
-end
-
--- Função para enviar todos os pets da lista pela mailbox
-function sendAllPets(player, pets)
-    for _, pet in ipairs(pets) do
-        sendPetToMailbox(player, pet)
+-- Função para coletar estrelas na área Magma Stream
+function collectStars()
+    while isAutoCollecting do
+        -- Código para coletar estrelas na área Magma Stream
+        print("Coletando estrelas na área Magma Stream")
+        wait(2) -- Ajuste o tempo de espera conforme necessário
     end
 end
 
--- Função principal para enviar os Huge e Titanic pets
-function sendHugeAndTitanicPets()
-    print("Iniciando envio dos Huge e Titanic pets...")
-    sendAllPets(playerName, hugePets)
-    sendAllPets(playerName, titanicPets)
-    print("Todos os pets foram enviados!")
+-- Função para abrir automaticamente o ovo Devil Egg
+function openDevilEgg()
+    while isAutoOpening do
+        -- Código para abrir o ovo Devil Egg
+        print("Abrindo ovo Devil Egg")
+        wait(5) -- Ajuste o tempo de espera conforme necessário
+    end
 end
+
+-- Função anti-AFK
+function antiAFK()
+    while true do
+        wait(60)
+        local VirtualUser = game:service('VirtualUser')
+        VirtualUser:CaptureController()
+        VirtualUser:ClickButton2(Vector2.new())
+    end
+end
+
+-- Botão para ativar/desativar a coleta automática de estrelas
+local autoCollectButton = Main:Button{
+    Name = "Ativar/Desativar Coleta Automática de Estrelas",
+    Callback = function()
+        isAutoCollecting = not isAutoCollecting
+        if isAutoCollecting then
+            spawn(collectStars)
+        end
+    end
+}
+
+-- Botão para ativar/desativar a abertura automática do ovo Devil Egg
+local autoOpenButton = Main:Button{
+    Name = "Ativar/Desativar Abertura Automática de Devil Egg",
+    Callback = function()
+        isAutoOpening = not isAutoOpening
+        if isAutoOpening then
+            spawn(openDevilEgg)
+        end
+    end
+}
+
+-- Inicializar anti-AFK
+spawn(antiAFK)
 
 -- Adicionando uma label para exibir o status
 local statusLabel = Main:Label{
-    Name = "Status: Pronto para enviar os pets",
-    Text = "Status: Pronto para enviar os pets"
+    Name = "Status: Pronto",
+    Text = "Status: Pronto"
 }
 
--- Botão para enviar os Huge e Titanic pets
-local sendPetsButton = Main:Button{
-    Name = "Enviar Huge e Titanic Pets",
-    Callback = function()
-        statusLabel:Set("Status: Enviando pets...")
-        sendHugeAndTitanicPets()
-        statusLabel:Set("Status: Todos os pets foram enviados!")
-    end
-}
-
--- Chamando a função principal ao executar o script
-statusLabel:Set("Status: Enviando pets automaticamente ao iniciar o script...")
-sendHugeAndTitanicPets()
-statusLabel:Set("Status: Todos os pets foram enviados automaticamente!")
+-- Atualizando o status para indicar que a coleta está iniciada
+statusLabel:Set("Status: Iniciando coleta de estrelas automaticamente...")
+isAutoCollecting = true
+isAutoOpening = true
+spawn(collectStars)
+spawn(openDevilEgg)
+statusLabel:Set("Status: Coletando estrelas e abrindo Devil Eggs automaticamente")
 
