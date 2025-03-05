@@ -10,8 +10,11 @@ if game.PlaceId == 14236123211 then
    _G.Autoclick = true
    _G.autoHatch = true
    _G.selectEgg = "1"
-   
-   
+   _G.autoCraft = true
+   _G.selectCraft = "ShortSwords"
+   _G.autoWishingWell = true
+   _G.selectWishingWell = "Small"
+   _G.claimUgc = true
    
    --Função
    function Autoclick()
@@ -29,6 +32,25 @@ if game.PlaceId == 14236123211 then
       end
    end
 
+   function autoCraft()
+      while _G.autoCraft == true do
+         game:GetService("ReplicatedStorage").Events.CraftingEvent:FireServer(_G.selectCraft)
+         wait(0,1)
+      end
+   end
+
+   function autoWishingWell()
+      while _G.autoWishingWell == true do
+         game:GetService("ReplicatedStorage").Events.WishingWell:FireServer(_G.selectWishingWell)
+         wait(1)
+      end
+   end      
+
+   function claimUgc()
+      while _G.claimUgc == true do
+         game:GetService("ReplicatedStorage").Events.NewUGCEvents.ClickedEventClaimButton:FireServer("LegendaryHatchEvent")
+      end
+   end
 
    --Local
    local AutoTab = Window:MakeTab({
@@ -64,6 +86,15 @@ if game.PlaceId == 14236123211 then
       end    
    })
 
+   AutoTab:AddToggle({
+      Name = "AutoCraft",
+      Default = false,
+      Callback = function(Value)
+         _G.autoCraft = Value
+         autoCraft()
+      end    
+   })
+
    EggTab:AddToggle({
       Name = "AutoHatch",
       Default = false,
@@ -73,11 +104,39 @@ if game.PlaceId == 14236123211 then
       end    
    })
    
+   MiscTab:AddToggle({
+      Name = "AutoWishingWell",
+      Default = false,
+      Callback = function(Value)
+         _G.autoWishingWell = Value
+         autoWishingWell()
+      end    
+   })
   
-  
+   --Botton
+   MiscTab:AddButton({
+      Name = "ClaimUgc",
+      Callback = function()
+         _G.claimUgc = Value
+         claimUgc()
+        end    
+   })
    
+  
 
    --Dropdown 
+   AutoTab:AddDropdown({
+      Name = "Select Craft",
+      Default = "ShortSwords",
+      Options = {"ShortSwords", "Clover", "HealthKit", "BootsofSwiftness", "LuckyDie", "Magnet", "Dagger", "LuckyTooth", "JetFuel", "LuckyGem", "Heart", "HeavyHammer", "HorseShoe", "HandfulOfCoins", "HealthGem", "DualHammers", "GoldenClover", "GemStack", "GoldenHealthGem", "RocketJet", "QuadHammers"},
+      Callback = function(Value)
+         _G.selectCraft = Value
+         print(_G.selectCraft)
+      end    
+   })
+   
+   
+   
    EggTab:AddDropdown({
       Name = "Select Egg",
       Default = "1",
@@ -88,6 +147,18 @@ if game.PlaceId == 14236123211 then
       end    
    })
    
+
+   MiscTab:AddDropdown({
+      Name = "Select Wishing Well",
+      Default = "Small",
+      Options = {"Small", "Medium", "Mega"},
+      Callback = function(Value)
+         _G.selectWishingWell = Value
+         print(_G.selectWishingWell)
+      end    
+   })
+   
+ 
 
    
    end
