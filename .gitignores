@@ -14,7 +14,6 @@ if game.PlaceId == 14236123211 then
    _G.selectCraft = "ShortSwords"
    _G.autoWishingWell = true
    _G.selectWishingWell = "Small"
-   _G.claimUgc = true
    
    --Função
    function Autoclick()
@@ -46,11 +45,7 @@ if game.PlaceId == 14236123211 then
       end
    end      
 
-   function claimUgc()
-      while _G.claimUgc == true do
-         game:GetService("ReplicatedStorage").Events.NewUGCEvents.ClickedEventClaimButton:FireServer("LegendaryHatchEvent")
-      end
-   end
+  
 
    --Local
    local AutoTab = Window:MakeTab({
@@ -113,14 +108,7 @@ if game.PlaceId == 14236123211 then
       end    
    })
   
-   --Botton
-   MiscTab:AddButton({
-      Name = "ClaimUgc",
-      Callback = function()
-         _G.claimUgc = Value
-         claimUgc()
-        end    
-   })
+ 
    
   
 
